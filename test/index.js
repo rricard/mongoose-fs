@@ -52,7 +52,6 @@ describe('On a connected database', function () {
           if(err) {
             return done(err);
           }
-          console.log(file);
           file.retrieveBlobs(function (err) {
             if(err) {
               return done(err);
