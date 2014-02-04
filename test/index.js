@@ -37,7 +37,7 @@ describe('On a connected database', function () {
       });
 
       it('does not store blobs into the mongo document', function (done) {
-        File.find({name: "huge"}, function (err, file) {
+        File.findOne({name: "huge.txt"}, function (err, file) {
           if(err) {
             return done(err);
           }
@@ -48,10 +48,11 @@ describe('On a connected database', function () {
       });
 
       it('does store blobs into GridFS', function (done) {
-        File.find({name: "huge"}, function (err, file) {
+        File.findOne({name: "huge.txt"}, function (err, file) {
           if(err) {
             return done(err);
           }
+          console.log(file);
           file.retrieveBlobs(function (err) {
             if(err) {
               return done(err);
