@@ -22,7 +22,8 @@
   },
   "devDependencies": {
     "mocha": "1.17.x",
-    "should": "3.1.x"
+    "should": "3.1.x",
+    "mocha-mongoose": "1.x.x"
   },
   "licence": "MIT",
   "engines": {

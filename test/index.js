@@ -4,12 +4,11 @@ require('should');
 var mongoose = require('mongoose');
 var mongooseFS = require('../index.js');
 
+var DB_URI = 'mongodb://localhost/test';
+
 describe('On a connected database', function () {
   before(function (done) {
-    mongoose.connect('mongodb://localhost/test');
-    var db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', done);
+    mongoose.connect(DB_URI, done);
   });
 
   describe('with a simple File model', function() {
@@ -27,22 +26,31 @@ describe('On a connected database', function () {
     });
 
     describe('for one file', function () {
+      var id; 
+
       before(function (done) {
         var hugeFile = new File({
           name: "huge.txt",
           content: "anyFetch is cool",
           complement: { some: { complicated: { stuff: true } } }
         });
-        hugeFile.save(done);
-      });
-
-      it('does not store blobs into the mongo document', function (done) {
-        File.findOne({name: "huge.txt"}, function (err, file) {
+        hugeFile.save(function (err, file) {
           if(err) {
             return done(err);
           }
-          file.should.not.have.property('content');
-          file.should.not.have.property('complement');
+          id = file._id;
+          done();
+        });
+      });
+
+      it('does not store blobs into the mongo document', function (done) {
+        File.findById(id, function (err, file) {
+          if(err) {
+            return done(err);
+          }
+          console.log(id, file);
+          file.should.have.property('content', undefined);
+          file.should.have.property('complement', undefined);
           done(err);
         });
       });
