@@ -48,7 +48,6 @@ describe('On a connected database', function () {
           if(err) {
             return done(err);
           }
-          console.log(id, file);
           file.should.have.property('content', undefined);
           file.should.have.property('complement', undefined);
           done(err);
