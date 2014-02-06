@@ -48,8 +48,9 @@ describe('On a connected database', function () {
           if(err) {
             return done(err);
           }
-          file.should.have.property('content', undefined);
-          file.should.have.property('complement', undefined);
+          (file.get('content') === undefined).should.be.ok;
+          (file.get('complement') === undefined).should.be.ok;
+          file.get('name').should.be.exactly("huge.txt");
           done(err);
         });
       });
@@ -63,8 +64,9 @@ describe('On a connected database', function () {
             if(err) {
               return done(err);
             }
-            file.should.have.property('content', 'anyFetch is cool');
-            file.some.complicated.should.have.property('stuff', true);
+            file.get('content').should.be.exactly('anyFetch is cool');
+            file.get('complement.some.complicated.stuff').should.be.ok;
+            file.get('name').should.be.exactly("huge.txt");
             done();
           });
           
