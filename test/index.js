@@ -56,7 +56,7 @@ describe('On a connected database', function () {
       });
 
       it('does store blobs into GridFS', function (done) {
-        File.findOne({name: "huge.txt"}, function (err, file) {
+        File.findById(id, function (err, file) {
           if(err) {
             return done(err);
           }
@@ -69,9 +69,29 @@ describe('On a connected database', function () {
             file.get('name').should.be.exactly("huge.txt");
             done();
           });
-          
         });
       });
+
+      it('does not alter the document if GridFS is not reloaded', function (done) {
+        File.findById(id, function (err, file) {
+          if(err) {
+            return done(err);
+          }
+          file.save(function(err, file) {
+            if(err) {
+              return done(err);
+            }
+            file.retrieveBlobs(function (err) {
+              if(err) {
+                return done(err);
+              }
+              file.get('content').should.be.exactly('anyFetch is cool');
+              done();
+            });
+          });
+        });
+      });
+
     });
     
   });
