@@ -6,93 +6,92 @@ var mongooseFS = require('../index.js');
 
 var DB_URI = 'mongodb://localhost/test';
 
-describe('On a connected database', function () {
+describe('For a single record', function () {
+  var File = null;
+  var id = null;
+
   before(function (done) {
-    mongoose.connect(DB_URI, done);
-  });
+    mongoose.connect(DB_URI, function(err) {
+      if(err) {
+        return done(err);
+      }
 
-  describe('with a simple File model', function() {
-    var File = null;
-
-    before(function (done) {
       var fileSchema = mongoose.Schema({
         name: String,
         content: String,
         complement: {}
       });
+
       fileSchema.plugin(mongooseFS, {keys: ['content', 'complement']});
       File = mongoose.model('File', fileSchema);
-      done();
+
+      var file = new File({
+        name: "huge.txt",
+        content: "anyFetch is cool",
+        complement: { some: { complicated: { stuff: true } } }
+      });
+
+      file.save(function (err, savedFile) {
+        if(err) {
+          return done(err);
+        }
+        id = savedFile._id;
+        done();
+      });
     });
+  });
 
-    describe('for one file', function () {
-      var id; 
+  it('does not store blobs into the mongo document', function (done) {
+    File.findById(id, function (err, file) {
+      if(err) {
+        return done(err);
+      }
+      (file.get('content') === undefined).should.be.ok;
+      (file.get('complement') === undefined).should.be.ok;
+      file.get('name').should.be.exactly("huge.txt");
+      done(err);
+    });
+  });
 
-      before(function (done) {
-        var hugeFile = new File({
-          name: "huge.txt",
-          content: "anyFetch is cool",
-          complement: { some: { complicated: { stuff: true } } }
-        });
-        hugeFile.save(function (err, file) {
+  it('does store blobs into GridFS', function (done) {
+    File.findById(id, function (err, file) {
+      if(err) {
+        return done(err);
+      }
+      file.retrieveBlobs(function (err) {
+        if(err) {
+          return done(err);
+        }
+        file.get('content').should.be.exactly('anyFetch is cool');
+        file.get('complement.some.complicated.stuff').should.be.ok;
+        file.get('name').should.be.exactly("huge.txt");
+        done();
+      });
+    });
+  });
+
+  it('does not alter the document if GridFS is not reloaded', function (done) {
+    File.findById(id, function (err, file) {
+      if(err) {
+        return done(err);
+      }
+      file.save(function(err, file) {
+        if(err) {
+          return done(err);
+        }
+        file.retrieveBlobs(function (err) {
           if(err) {
             return done(err);
           }
-          id = file._id;
+          file.get('content').should.be.exactly('anyFetch is cool');
           done();
         });
       });
-
-      it('does not store blobs into the mongo document', function (done) {
-        File.findById(id, function (err, file) {
-          if(err) {
-            return done(err);
-          }
-          (file.get('content') === undefined).should.be.ok;
-          (file.get('complement') === undefined).should.be.ok;
-          file.get('name').should.be.exactly("huge.txt");
-          done(err);
-        });
-      });
-
-      it('does store blobs into GridFS', function (done) {
-        File.findById(id, function (err, file) {
-          if(err) {
-            return done(err);
-          }
-          file.retrieveBlobs(function (err) {
-            if(err) {
-              return done(err);
-            }
-            file.get('content').should.be.exactly('anyFetch is cool');
-            file.get('complement.some.complicated.stuff').should.be.ok;
-            file.get('name').should.be.exactly("huge.txt");
-            done();
-          });
-        });
-      });
-
-      it('does not alter the document if GridFS is not reloaded', function (done) {
-        File.findById(id, function (err, file) {
-          if(err) {
-            return done(err);
-          }
-          file.save(function(err, file) {
-            if(err) {
-              return done(err);
-            }
-            file.retrieveBlobs(function (err) {
-              if(err) {
-                return done(err);
-              }
-              file.get('content').should.be.exactly('anyFetch is cool');
-              done();
-            });
-          });
-        });
-      });
-
     });
-    
   });
+
+  after(function (done) {
+    File.findByIdAndRemove(id, done);
+  })
+
 });
