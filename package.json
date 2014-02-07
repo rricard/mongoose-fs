@@ -4,7 +4,7 @@
   "description": "Mongoose plugin for large attributes storage in GridFS",
   "author": "Robin Ricard <ricard.robin@gmail.com>",
   "scripts": {
-    "test": "NODE_ENV=test mocha -R spec test/"
+    "test": "NODE_ENV=test mocha --debug-brk -t 1000000 -R spec test/"
   },
   "main": "./index.js",
   "repository": {
