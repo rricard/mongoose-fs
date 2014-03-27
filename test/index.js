@@ -9,6 +9,7 @@ var DB_URI = 'mongodb://localhost/test';
 describe('For a single record', function () {
   var File = null;
   var id = null;
+  var originalFile = null;
 
   before(function (done) {
     mongoose.connect(DB_URI, function(err) {
@@ -36,9 +37,17 @@ describe('For a single record', function () {
           return done(err);
         }
         id = savedFile._id;
+        originalFile = savedFile;
         done();
       });
     });
+  });
+
+  it('should restore original state after saving', function (done) {
+    originalFile.get('content').should.be.exactly('anyFetch is cool');
+    originalFile.get('complement.some.complicated.stuff').should.be.ok;
+    originalFile.get('name').should.be.exactly("huge.txt");
+    done();
   });
 
   it('does not store blobs into the mongo document', function (done) {
