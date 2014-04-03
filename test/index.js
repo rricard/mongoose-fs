@@ -18,19 +18,17 @@ describe('For a single record', function () {
       }
 
       var fileSchema = mongoose.Schema({
-        name: String,
-        content: String,
-        complement: {}
+        name: String
       });
 
       fileSchema.plugin(mongooseFS, {keys: ['content', 'complement']});
       File = mongoose.model('File', fileSchema);
 
       var file = new File({
-        name: "huge.txt",
-        content: "anyFetch is cool",
-        complement: { some: { complicated: { stuff: true } } }
+        name: "huge.txt"
       });
+      file.content = "anyFetch is cool";
+      file.complement = { some: { complicated: { stuff: true } } };
 
       file.save(function (err, savedFile) {
         if(err) {
@@ -44,8 +42,8 @@ describe('For a single record', function () {
   });
 
   it('should restore original state after saving', function (done) {
-    originalFile.get('content').should.be.exactly('anyFetch is cool');
-    originalFile.get('complement.some.complicated.stuff').should.be.ok;
+    originalFile.content.should.be.exactly('anyFetch is cool');
+    originalFile.complement.some.complicated.stuff.should.be.ok;
     originalFile.get('name').should.be.exactly("huge.txt");
     done();
   });
@@ -59,8 +57,8 @@ describe('For a single record', function () {
         if(err) {
           return done(err);
         }
-        file.get('content').should.be.exactly('anyFetch is cool');
-        file.get('complement.some.complicated.stuff').should.be.ok;
+        file.content.should.be.exactly('anyFetch is cool');
+        file.complement.some.complicated.stuff.should.be.ok;
         file.get('name').should.be.exactly("huge.txt");
         done();
       });
@@ -80,7 +78,7 @@ describe('For a single record', function () {
           if(err) {
             return done(err);
           }
-          file.get('content').should.be.exactly('anyFetch is cool');
+          file.content.should.be.exactly('anyFetch is cool');
           done();
         });
       });
