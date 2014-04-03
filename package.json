@@ -1,6 +1,6 @@
 {
   "name": "mongoose-fs",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Mongoose plugin for large attributes storage in GridFS",
   "author": "Robin Ricard <ricard.robin@gmail.com>",
   "scripts": {

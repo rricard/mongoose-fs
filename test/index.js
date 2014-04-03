@@ -53,13 +53,13 @@ describe('For a single record', function () {
       if(err) {
         return done(err);
       }
-      file.retrieveBlobs(function (err) {
+      file.retrieveBlobs(function (err, doc) {
         if(err) {
           return done(err);
         }
-        file.content.should.be.exactly('anyFetch is cool');
-        file.complement.some.complicated.stuff.should.be.ok;
-        file.get('name').should.be.exactly("huge.txt");
+        doc.content.should.be.exactly('anyFetch is cool');
+        doc.complement.some.complicated.stuff.should.be.ok;
+        doc.get('name').should.be.exactly("huge.txt");
         done();
       });
     });
@@ -74,11 +74,11 @@ describe('For a single record', function () {
         if(err) {
           return done(err);
         }
-        file.retrieveBlobs(function (err) {
+        file.retrieveBlobs(function (err, doc) {
           if(err) {
             return done(err);
           }
-          file.content.should.be.exactly('anyFetch is cool');
+          doc.content.should.be.exactly('anyFetch is cool');
           done();
         });
       });
