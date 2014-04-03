@@ -50,18 +50,6 @@ describe('For a single record', function () {
     done();
   });
 
-  it('does not store blobs into the mongo document', function (done) {
-    File.findById(id, function (err, file) {
-      if(err) {
-        return done(err);
-      }
-      (file.get('content') === undefined).should.be.ok;
-      (file.get('complement') === undefined).should.be.ok;
-      file.get('name').should.be.exactly("huge.txt");
-      done(err);
-    });
-  });
-
   it('does store blobs into GridFS', function (done) {
     File.findById(id, function (err, file) {
       if(err) {
