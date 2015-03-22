@@ -1,7 +1,6 @@
-# mongoose-fs-fork
+# mongoose-fs
 
-Forked Mongoose plugin for large attributes storage in GridFS. This fork synchronizes the RetrieveBlobs() and save() functions with Promises.
-On node 0.12 I noticed synchronization issues, which did not retrieve the blobs saved in GridFS. A Pull request has been made to mongoose-fs.
+Mongoose plugin for large attributes storage in GridFS.
 
 ## Why ?
 
