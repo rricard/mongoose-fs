@@ -29,7 +29,7 @@ Here's an example :
 
 ```javascript
 var mongoose = require('mongoose');
-var mongooseFS = require('mongoose-fs');
+var mongooseFS = require('mongoose-fs-fork');
 
 var fileSchema = mongoose.Schema({
   name: String,
