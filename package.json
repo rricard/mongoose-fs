@@ -9,7 +9,7 @@
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:rricard/mongoose-fs.git"
+    "url": "git@github.com:dlemon/mongoose-fs.git"
   },
   "keywords": [
     "mongodb",
