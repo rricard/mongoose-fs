@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "mongoose": "3.8.x",
-	"q": "1.2.x"
+    "q": "1.2.x"
   },
   "devDependencies": {
     "mocha": "1.17.x",
