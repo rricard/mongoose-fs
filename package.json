@@ -1,15 +1,15 @@
 {
-  "name": "mongoose-fs",
-  "version": "0.2.7",
-  "description": "Mongoose plugin for large attributes storage in GridFS",
-  "author": "Robin Ricard <ricard.robin@gmail.com>",
+  "name": "mongoose-fs-fork",
+  "version": "0.2.10",
+  "description": "Fork of depricated Mongoose plugin for large attributes storage in GridFS",
+  "author": "Dennis Lemon <dennis.lemon@sudselekt.com>",
   "scripts": {
     "test": "NODE_ENV=test mocha -R spec test/"
   },
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:rricard/mongoose-fs.git"
+    "url": "git@github.com:dlemon/mongoose-fs.git"
   },
   "keywords": [
     "mongodb",
