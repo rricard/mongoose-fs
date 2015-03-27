@@ -1,6 +1,6 @@
 {
   "name": "mongoose-fs-fork",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "Fork of depricated Mongoose plugin for large attributes storage in GridFS",
   "author": "Dennis Lemon <dennis.lemon@sudselekt.com>",
   "scripts": {
