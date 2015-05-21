@@ -1,6 +1,10 @@
-# mongoose-fs
+# mongoose-fs-fork
 
-Mongoose plugin for large attributes storage in GridFS.
+Fork of Mongoose plugin for large attributes storage in GridFS
+
+This fork synchronizes the RetrieveBlobs() and save() functions with Promises. On node 0.12 I noticed synchronization issues, which did not retrieve the blobs saved in GridFS. A Pull request has been integrated into mongoose-fs but is not published in npm yet.
+
+A new milestone has been defined on Github, codename Hey Moose!, which aims at document decoration for the plugin. Please visit https://github.com/dlemon/mongoose-fs/milestones for use cases.
 
 ## Why ?
 
@@ -9,7 +13,7 @@ A basic mongo document can only keep a limited number of information. This plugi
 ## Installation
 
 ```shell
-npm install mongoose-fs
+npm install mongoose-fs-fork
 ```
 
 or add it to your `package.json`.
@@ -28,7 +32,7 @@ Here's an example :
 
 ```javascript
 var mongoose = require('mongoose');
-var mongooseFS = require('mongoose-fs');
+var mongooseFS = require('mongoose-fs-fork');
 
 var fileSchema = mongoose.Schema({
   name: String,
